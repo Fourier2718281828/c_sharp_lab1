@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.Tools
+namespace Lab1.Tools
 {
     public class RelayCommand<T> : ICommand
     {
