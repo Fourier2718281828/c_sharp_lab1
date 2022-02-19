@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using Lab1.Models;
 using Lab1.Tools;
@@ -38,6 +39,10 @@ namespace Lab1.ViewModels
             get => _clearCommand ??= new RelayCommand<object>(_ =>
             {
                 DateOfBirth = null;
+                Age = null;
+                HasBirthday = "";
+                WesternZodiacSign = null;
+                ChineseZodiacSign = null;
             },
             _ => DateOfBirth != null);
         }
@@ -50,28 +55,33 @@ namespace Lab1.ViewModels
                 OnPropertyChanged(nameof(DateOfBirth));
             }
         }
+
         public string Age
         {
-            get => "Your Age: " + _user.Age ?? "";
-            set
+            get
             {
-                //_user.Age = 0;
-                OnPropertyChanged();
+                if(!_user.HasCorrectDate)
+                {
+                    MessageBox.Show("Unacceptable date input!");
+                    return null;
+                }
+                return "Your Age: " + _user.Age ?? "";
             }
+            set => OnPropertyChanged(nameof(Age));
         }
-       
+        public string HasBirthday
+        {
+            get => _user.HasBirthday ? "Happy Birthday!" : "";
+            set => OnPropertyChanged(nameof(HasBirthday));
+        }
         public string WesternZodiacSign
         {
             get
             {
                 User.WesternZodiac? tmp = _user.WesternZodiacSign;
-                return "Western Zodiac:\n" + (tmp == null ? "" : Enum.GetName(typeof(User.WesternZodiac), tmp));
+                return "Western Zodiac:\n\t" + (tmp == null ? "" : Enum.GetName(typeof(User.WesternZodiac), tmp));
             }
-            set
-            {
-                _user.WesternZodiacSign = 0;
-                OnPropertyChanged();
-            }
+            set => OnPropertyChanged(nameof(WesternZodiacSign));
         }
 
         public string ChineseZodiacSign
@@ -79,13 +89,9 @@ namespace Lab1.ViewModels
             get 
             {
                 User.ChineseZodiac? tmp = _user.ChineseZodiacSign;
-                return "Chinese Zodiac:\n" + (tmp == null ? "" : Enum.GetName(typeof(User.ChineseZodiac), tmp)); 
+                return "Chinese Zodiac:\n\t" + (tmp == null ? "" : Enum.GetName(typeof(User.ChineseZodiac), tmp)); 
             }
-            set
-            {
-                _user.ChineseZodiacSign = 0;
-                OnPropertyChanged();
-            }
+            set => OnPropertyChanged(nameof(ChineseZodiacSign));
         }
         #endregion
     }

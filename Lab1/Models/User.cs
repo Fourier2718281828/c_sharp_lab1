@@ -10,9 +10,6 @@ namespace Lab1.Models
     {
         #region Fields
         private DateTime? _dateOfBirth = null;
-        private short? _age;
-        private WesternZodiac? _westernSign;
-        private ChineseZodiac? _chineseSign;
         #endregion
 
         #region ZodiacSigns
@@ -24,6 +21,11 @@ namespace Lab1.Models
         {
             Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig
         }
+
+        private enum Month
+        {
+            Jan = 1, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+        }
         #endregion
 
         #region Properties
@@ -34,44 +36,80 @@ namespace Lab1.Models
         }
         public short? Age
         {
-            //get => _age;
-            //set => _age = getAge();
             get => getAge();
+        }
+
+        public bool HasCorrectDate
+        {
+            get => hasCorrectDate();
+        }
+
+        public bool HasBirthday 
+        {
+            get => hasBirthday();
         }
         public WesternZodiac? WesternZodiacSign
         {
-            get => _westernSign;
-            set => _westernSign = getWesternZodiacSign();
+            get => getWesternZodiacSign();
         }
 
         public ChineseZodiac? ChineseZodiacSign
         {
-            get => _chineseSign;
-            set => _chineseSign = getChineseZodiacSign();
+            get => getChineseZodiacSign();
         }
         #endregion
 
         #region Methods
         private short? getAge()
         {
-            //return 10;
-            //return _dateOfBirth == null ? null : (short)(DateTime.Now.Year - _dateOfBirth.Value.Year +
-            //                       (DateTime.Now.Month >= _dateOfBirth.Value.Month &&
-            //                        DateTime.Now.Day >= _dateOfBirth.Value.Day ? 0 : -1));
             if (DateOfBirth == null) return null;
-
             return (short)(DateTime.Now.Year - _dateOfBirth.Value.Year + ((DateTime.Now.Month >= _dateOfBirth.Value.Month &&
                                                                            DateTime.Now.Day >= _dateOfBirth.Value.Day) ||
                                                                           DateTime.Now.Year == _dateOfBirth.Value.Year ? 0 : -1));
         }
+
+        private bool hasCorrectDate()
+        {
+            if (_dateOfBirth == null) return true;
+            return DateTime.Now >= _dateOfBirth.Value.Date && Age <= 135;
+        }
+        private bool hasBirthday()
+        {
+            if (_dateOfBirth == null) return false;
+            return (DateTime.Now.Day == _dateOfBirth.Value.Day) && (DateTime.Now.Month == _dateOfBirth.Value.Month);
+        }
         private WesternZodiac? getWesternZodiacSign()
         {
-            return WesternZodiac.Gemini;
+            if (DateOfBirth == null) return null;
+
+            if (isIn(Month.Mar, 21, Month.Apr, 19)) return WesternZodiac.Aries;
+            if (isIn(Month.Apr, 20, Month.May, 20)) return WesternZodiac.Taurus;
+            if (isIn(Month.May, 21, Month.Jun, 21)) return WesternZodiac.Gemini;
+            if (isIn(Month.Jun, 22, Month.Jul, 22)) return WesternZodiac.Cancer;
+            if (isIn(Month.Jul, 23, Month.Aug, 22)) return WesternZodiac.Leo;
+            if (isIn(Month.Aug, 23, Month.Sep, 22)) return WesternZodiac.Virgo;
+            if (isIn(Month.Sep, 23, Month.Oct, 22)) return WesternZodiac.Libra;
+            if (isIn(Month.Oct, 23, Month.Nov, 22)) return WesternZodiac.Scorpio;
+            if (isIn(Month.Nov, 23, Month.Dec, 21)) return WesternZodiac.Sagittarius;
+            if (isIn(Month.Dec, 22, Month.Jan, 19)) return WesternZodiac.Capricorn;
+            if (isIn(Month.Jan, 20, Month.Feb, 18)) return WesternZodiac.Aquarius;
+            if (isIn(Month.Feb, 19, Month.Mar, 20)) return WesternZodiac.Pisces;
+
+            return null;
         }
 
         private ChineseZodiac? getChineseZodiacSign()
         {
-            return 0;
+            if (DateOfBirth == null) return null;
+            return (ChineseZodiac)((_dateOfBirth.Value.Year - 4) % 12);
+        }
+
+        private bool isIn( Month m1, int d1, Month m2, int d2)
+        {
+            //new DateTime((int)_dateOfBirth.Value.Year, (int)m1, (int)d1) ;
+            //return false;
+            return _dateOfBirth >= new DateTime(_dateOfBirth.Value.Year, (int)m1, d1)
+                && _dateOfBirth <= new DateTime(_dateOfBirth.Value.Year, (int)m2, d2);
         }
         #endregion
 
