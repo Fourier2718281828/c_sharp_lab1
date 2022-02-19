@@ -10,6 +10,9 @@ namespace Lab1.Models
     {
         #region Fields
         private DateTime? _dateOfBirth = null;
+        //private short? _age;
+        private WesternZodiac? _westernSign;
+        private ChineseZodiac? _chineseSign;
         #endregion
 
         #region ZodiacSigns
@@ -32,15 +35,18 @@ namespace Lab1.Models
         public short? Age
         {
             get => getAge();
+            //set => _age;
         }
         public WesternZodiac? WesternZodiacSign
         {
-            get => getWesternZodiacSign();
+            get => _westernSign;
+            set => _westernSign = getWesternZodiacSign();
         }
 
         public ChineseZodiac? ChineseZodiacSign
         {
-            get => getChineseZodiacSign();
+            get => _chineseSign;
+            set => _chineseSign = getChineseZodiacSign();
         }
         #endregion
 
