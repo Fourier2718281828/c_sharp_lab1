@@ -10,7 +10,7 @@ namespace Lab1.Models
     {
         #region Fields
         private DateTime? _dateOfBirth = null;
-        //private short? _age;
+        private short? _age;
         private WesternZodiac? _westernSign;
         private ChineseZodiac? _chineseSign;
         #endregion
@@ -34,8 +34,9 @@ namespace Lab1.Models
         }
         public short? Age
         {
+            //get => _age;
+            //set => _age = getAge();
             get => getAge();
-            //set => _age;
         }
         public WesternZodiac? WesternZodiacSign
         {
@@ -53,18 +54,24 @@ namespace Lab1.Models
         #region Methods
         private short? getAge()
         {
-            return _dateOfBirth == null ? null : (short)(DateTime.Now.Year - _dateOfBirth.Value.Year + 
-                                   (DateTime.Now.Month >= _dateOfBirth.Value.Month && 
-                                    DateTime.Now.Day >= _dateOfBirth.Value.Day ? 0 : -1));
+            //return 10;
+            //return _dateOfBirth == null ? null : (short)(DateTime.Now.Year - _dateOfBirth.Value.Year +
+            //                       (DateTime.Now.Month >= _dateOfBirth.Value.Month &&
+            //                        DateTime.Now.Day >= _dateOfBirth.Value.Day ? 0 : -1));
+            if (DateOfBirth == null) return null;
+
+            return (short)(DateTime.Now.Year - _dateOfBirth.Value.Year + ((DateTime.Now.Month >= _dateOfBirth.Value.Month &&
+                                                                           DateTime.Now.Day >= _dateOfBirth.Value.Day) ||
+                                                                          DateTime.Now.Year == _dateOfBirth.Value.Year ? 0 : -1));
         }
         private WesternZodiac? getWesternZodiacSign()
         {
-            return null;
+            return WesternZodiac.Gemini;
         }
 
         private ChineseZodiac? getChineseZodiacSign()
         {
-            return null;
+            return 0;
         }
         #endregion
 
