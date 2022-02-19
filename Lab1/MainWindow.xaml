@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lab1"
         xmlns:views="clr-namespace:Lab1.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="280" Width="300" MinHeight="280" MinWidth="300">
+        Title="MainWindow" Height="200" Width="300" MinHeight="220" MinWidth="300">
     <Grid>
         <views:DateAnalyzerView></views:DateAnalyzerView>
     </Grid>

@@ -31,6 +31,7 @@ namespace Lab1.ViewModels
                 Age = null;
                 WesternZodiacSign = null;
                 ChineseZodiacSign = null;
+                if (_user.HasBirthday) MessageBox.Show("Happy Birthday!");
             }, 
             _ => DateOfBirth != null);
         }
@@ -40,7 +41,6 @@ namespace Lab1.ViewModels
             {
                 DateOfBirth = null;
                 Age = null;
-                HasBirthday = "";
                 WesternZodiacSign = null;
                 ChineseZodiacSign = null;
             },
@@ -63,23 +63,19 @@ namespace Lab1.ViewModels
                 if(!_user.HasCorrectDate)
                 {
                     MessageBox.Show("Unacceptable date input!");
-                    return null;
+                    return "Your Age: ";
                 }
                 return "Your Age: " + _user.Age ?? "";
             }
             set => OnPropertyChanged(nameof(Age));
         }
-        public string HasBirthday
-        {
-            get => _user.HasBirthday ? "Happy Birthday!" : "";
-            set => OnPropertyChanged(nameof(HasBirthday));
-        }
+       
         public string WesternZodiacSign
         {
             get
             {
                 User.WesternZodiac? tmp = _user.WesternZodiacSign;
-                return "Western Zodiac:\n\t" + (tmp == null ? "" : Enum.GetName(typeof(User.WesternZodiac), tmp));
+                return (tmp == null ? "" : Enum.GetName(typeof(User.WesternZodiac), tmp));
             }
             set => OnPropertyChanged(nameof(WesternZodiacSign));
         }
@@ -89,7 +85,7 @@ namespace Lab1.ViewModels
             get 
             {
                 User.ChineseZodiac? tmp = _user.ChineseZodiacSign;
-                return "Chinese Zodiac:\n\t" + (tmp == null ? "" : Enum.GetName(typeof(User.ChineseZodiac), tmp)); 
+                return (tmp == null ? "" : Enum.GetName(typeof(User.ChineseZodiac), tmp)); 
             }
             set => OnPropertyChanged(nameof(ChineseZodiacSign));
         }
